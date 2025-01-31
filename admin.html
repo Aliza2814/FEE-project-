@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Voting Summary</title>
+    <style>
+        body {
+            font-family: Georgia, serif;
+            background-color: #272b2b;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .admin-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            color: #ffcc00;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #444;
+            text-align: left;
+        }
+
+        th {
+            background-color: #374a4a;
+        }
+
+        .leader {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #ffcc00;
+        }
+
+        .clear-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ff4444;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .clear-button:hover {
+            background-color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-container">
+        <h1>Voting Summary</h1>
+
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>Voted For</th>
+                </tr>
+            </thead>
+            <tbody id="voteSummary"></tbody>
+        </table>
+
+       
+        <table>
+            <thead>
+                <tr>
+                    <th>Candidate</th>
+                    <th>Vote Count</th>
+                </tr>
+            </thead>
+            <tbody id="voteCount"></tbody>
+        </table>
+
+       
+        <div class="leader" id="leader"></div>
+
+       
+        <button class="clear-button" onclick="clearVotes()">Clear All Votes</button>
+    </div>
+
+    <script>
+        
+        const votes = JSON.parse(localStorage.getItem('votes')) || {};
+
+        
+        const voteCounts = {};
+        let highestVotes = 0;
+        let leader = "";
+
+        
+        const voteSummaryTable = document.getElementById('voteSummary');
+        for (const [userName, candidate] of Object.entries(votes)) {
+            const row = document.createElement('tr');
+            row.innerHTML = <td>${userName}</td><td>${candidate}</td>;
+            voteSummaryTable.appendChild(row);
+
+            
+            voteCounts[candidate] = (voteCounts[candidate] || 0) + 1;
+
+            
+            if (voteCounts[candidate] > highestVotes) {
+                highestVotes = voteCounts[candidate];
+                leader = candidate;
+            }
+        }
+
+        
+        const voteCountTable = document.getElementById('voteCount');
+        for (const [candidate, count] of Object.entries(voteCounts)) {
+            const row = document.createElement('tr');
+            row.innerHTML = <td>${candidate}</td><td>${count}</td>;
+            voteCountTable.appendChild(row);
+        }
+
+       
+        document.getElementById('leader').innerText = 
+            leader ? Current Leader: ${leader} with ${highestVotes} votes : 'No votes yet.';
+
+        
+        function clearVotes() {
+            if (confirm("Are you sure you want to clear all votes and reset the data? This action cannot be undone.")) {
+                localStorage.removeItem('votes');
+                location.reload(); 
+            }
+        }
+    </script>
+
+</body>
+</html>

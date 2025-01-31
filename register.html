@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bigg Boss Registration</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(45deg, #2c041d, #4d273e, #a06f8d);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .home {
+      padding-top: 10px;
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      display: inline-block; 
+    }
+
+    .home img {
+      width: 35px; 
+      height: auto;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .home :hover{
+      width: 40px;
+      height: auto;
+      transform: scale(1.08);
+    }
+
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.8); 
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 28px;
+            color: #e8d1f4;
+            margin-bottom: 30px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 14px;
+            margin: 12px 0;
+            border: 2px solid #5f4a72;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: #fff;
+            color: #333;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #a06f8d;
+            outline: none;
+        }
+
+        input[type="text"]::placeholder, input[type="password"]::placeholder {
+            color: #aaa;
+        }
+
+        .admin-checkbox {
+            margin: 18px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-checkbox input {
+            margin-right: 10px;
+        }
+
+        button {
+            background-color: #684059;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            background-color: #3d1f31;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 16px;
+            color: #ff4747; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="home">
+        <a href="E:\vscode\homepage\homepage.html">
+          <img src="C:\Users\Dell\Downloads\icons8-home-30.png" alt="Home Icon">
+        </a>
+        </div>
+
+    <div class="overlay">
+        <h1>Register for Bigg Boss Voting</h1>
+        <input type="text" id="username" placeholder="Enter Username" required>
+        <input type="password" id="password" placeholder="Enter Password" required>
+        
+        <div class="admin-checkbox">
+            <input type="checkbox" id="isAdmin"> <label for="isAdmin">Register as Admin</label>
+        </div>
+        
+        <button onclick="registerUser()">Register</button>
+        <div class="message" id="message"></div>
+    </div>
+
+    <script>
+        function registerUser() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const isAdmin = document.getElementById('isAdmin').checked;
+            const messageElement = document.getElementById('message');
+
+            messageElement.innerText = '';
+
+            if (username === '' || password === '') {
+                messageElement.innerText = 'Please fill in all fields.';
+                return;
+            }
+
+            const existingUser = localStorage.getItem(username);
+            if (existingUser) {
+                messageElement.innerText = 'Username already exists. Please choose another.';
+                return;
+            }
+
+            const userData = {
+                password: password,
+                isAdmin: isAdmin
+            };
+            localStorage.setItem(username, JSON.stringify(userData));
+            messageElement.style.color = 'green';
+            messageElement.innerText = 'Registration successful! You can now login.';
+        }
+    </script>
+
+</body>
+</html>
