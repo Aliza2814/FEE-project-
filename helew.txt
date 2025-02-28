@@ -2,12 +2,12 @@
   position: fixed;
   top: 0;
   width: 100%;
-  background-color: #ff6347; /* Change this to any background color you like */
-  color: #ffffff; /* Text color */
+  background-color: #ff6347; 
+  color: #ffffff; 
   padding: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
-  box-shadow: 0 2px 5px rgba(138, 132, 120, 0.7); /* Soft shadow effect */
+  box-shadow: 0 2px 5px rgba(138, 132, 120, 0.5); 
 }
